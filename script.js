@@ -84,12 +84,12 @@ modalBg.addEventListener('click', () => {
 })
 
 eventSearch.addEventListener('click', () => {
-var genreSelect = document.querySelector(".select").value;
-var dateSelect = document.querySelector(".input").value;
+var genreSelect = document.querySelector(".select-genre").value;
+var dateSelect = document.querySelector(".date-input").value;
 
    modal.classList.remove('is-active');
-   localStorage.setItem("date", dateSelect);
-   localStorage.setItem("genre", genreSelect);
+   localStorage.setItem("date", JSON.stringify(dateSelect));
+   localStorage.setItem("genre", JSON.stringify(genreSelect));
 
 })
 
