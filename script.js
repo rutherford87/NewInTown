@@ -1,8 +1,16 @@
 //Selectors
+var submitBtn = document.querySelector('#submitBtn');
 
 //EventListeners
 
-fetch("https://mashvisor-api.p.rapidapi.com/airbnb-property/top-reviewed?state=TX&page=1&city=Austin&reviews_count=30&zip_code=78734", {
+//Functions
+
+
+//Mashvisor API call for short term rentals
+//create function for fetch for on click 
+var inputCity = 'Austin'
+var inputState = 'TX'
+fetch("https://mashvisor-api.p.rapidapi.com/airbnb-property/top-reviewed?state="+inputState+"&page=1&city="+inputCity+"&reviews_count=30", {
 	"method": "GET",
 	"headers": {
 		"x-rapidapi-key": "1cb58a581amsh305daaa9cdf8116p1a0875jsn351d7f82b4e7",
@@ -19,6 +27,7 @@ fetch("https://mashvisor-api.p.rapidapi.com/airbnb-property/top-reviewed?state=T
     })
 .catch(err => {
 	console.error(err);
+
 });
 
 // $.ajax({
@@ -38,6 +47,8 @@ fetch("https://mashvisor-api.p.rapidapi.com/airbnb-property/top-reviewed?state=T
 
 function renderPropCards (data){
     //loop through top 3 rentals
+
+
     for(i=0; i<3; i++){
 $('#propCardCont').append(`
 <div class="card-content"id='propCard1'>
@@ -63,4 +74,5 @@ ${data.content.list[i].description.substring(0,150)}...
     }
 }
 
-renderPropCards();
+
+
