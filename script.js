@@ -76,3 +76,60 @@ ${data.content.list[i].description.substring(0,150)}...
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Modal
+
+var selectProperty = document.querySelector(".card-content");
+const modalBg = document.querySelector('.modal-background');
+const modal = document.querySelector('.modal');
+var eventSearch = document.querySelector('#searchEvent');
+
+
+selectProperty.addEventListener('click', () => {
+   modal.classList.add('is-active')
+})
+
+modalBg.addEventListener('click', () => {
+   modal.classList.remove('is-active')
+})
+
+eventSearch.addEventListener('click', () => {
+var genreSelect = document.querySelector(".select-genre").value;
+var dateSelect = document.querySelector(".date-input").value;
+
+   modal.classList.remove('is-active');
+   localStorage.setItem("date", JSON.stringify(dateSelect));
+   localStorage.setItem("genre", JSON.stringify(genreSelect));
+
+})
+
