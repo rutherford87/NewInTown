@@ -1,12 +1,23 @@
-fetch("https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=Museum%20of%20Contemporary%20Art%20Australia&inputtype=textquery&fields=photos,formatted_address,name,rating,opening_hours,geometry&key=AIzaSyB8Jvy0dfcWAybRKZyYUBicgxyetrhSaLw", {
+//Selectors
+
+//EventListeners
+
+//Function
+fetch("https://mashvisor-api.p.rapidapi.com/airbnb-property/top-reviewed?state=CA&page=1&city=Los%20Angeles&reviews_count=30&zip_code=91342", {
 	"method": "GET",
-    "mode": "no-cors",
+	"headers": {
+		"x-rapidapi-key": "1cb58a581amsh305daaa9cdf8116p1a0875jsn351d7f82b4e7",
+		"x-rapidapi-host": "mashvisor-api.p.rapidapi.com"
+	}
 })
-.then(function (response) {
-       return response.json()}).then(function (data) { 
-            console.log(data)       
-    
+.then(response => {
+    return response.json();
+	console.log(response);
 })
-.catch(function (error) {
-alert('Sorry! we\'r having trouble connecting to our servers. Try again soon');
+.then(function (data){
+    console.log(data)
+    })
+.catch(err => {
+	console.error(err);
 });
+
