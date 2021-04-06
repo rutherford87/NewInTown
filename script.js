@@ -37,7 +37,7 @@
 //              }
 //   });
 
-  var displayEvents = function(eventSearch){
+  var displayEvents = function(eventSearch) {
 	$('#event-container').children().remove()
 	for (var i = 0; i < 3; i++){
 		$('#event-container').append(`
