@@ -35,3 +35,61 @@ $.ajax({
                 // This time, we do not end up here!
              }
   });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Modal
+
+var selectProperty = document.querySelector(".card-content");
+const modalBg = document.querySelector('.modal-background');
+const modal = document.querySelector('.modal');
+var eventSearch = document.querySelector('#searchEvent');
+
+
+selectProperty.addEventListener('click', () => {
+   modal.classList.add('is-active')
+})
+
+modalBg.addEventListener('click', () => {
+   modal.classList.remove('is-active')
+})
+
+eventSearch.addEventListener('click', () => {
+var genreSelect = document.querySelector(".select").value;
+var dateSelect = document.querySelector(".input").value;
+
+   modal.classList.remove('is-active');
+   localStorage.setItem("date", dateSelect);
+   localStorage.setItem("genre", genreSelect);
+
+})
+
