@@ -2,15 +2,17 @@
 var submitBtn = document.querySelector('#submitBtn');
 var lat;
 var lng;
-// EventListeners
+var inputCity;
+var inputState;
+//EventListeners
 
 // Functions
 
 
 // Mashvisor API call for short term rentals
 // create function for fetch for on click 
-var inputCity = 'Austin'
-var inputState = 'TX'
+function getRentals(){
+  console.log('click worked');
 fetch("https://mashvisor-api.p.rapidapi.com/airbnb-property/top-reviewed?state="+inputState+"&page=1&city="+inputCity+"&reviews_count=30", {
 	"method": "GET",
 	"headers": {
@@ -29,7 +31,7 @@ fetch("https://mashvisor-api.p.rapidapi.com/airbnb-property/top-reviewed?state="
 .catch(err => {
 	console.error(err);
 
-});
+})};
 
 function renderPropCards (data){
     //loop through top 3 rentals
@@ -102,6 +104,9 @@ ${data.content.list[i].description.substring(0,150)}...
 	
 
  
+
+
+
 
     fetch(apiUrl)
     .then(function (response) {
@@ -194,3 +199,9 @@ var dateEndSelect = document.querySelector(".date-end-input").value;
    getEvents()
 })
 
+submitBtn.addEventListener('click', function(){
+  inputCity = document.querySelector("#inputCity").value;
+  inputState = document.querySelector("#inputState").value;
+  console.log(inputCity);
+  getRentals();
+})
