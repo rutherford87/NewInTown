@@ -87,11 +87,13 @@ ${data.content.list[i].description.substring(0,150)}...
 		`)
 	}
   }
-  
+
+//   template literal for date, move modal above this function
+//  before API, need to get local storage & convert to moment format required for URL parameters.
 //Date must be in YYYY-MM-DD T HH:MM:SS
   var getEvents = function () {
     var apiUrl = 'https://app.ticketmaster.com/discovery/v2/events.json?size=10&classificationName=rock&latlong=30.2672,-97.7431&radius=100&localStartEndDateTime=2021-04-08T14:00:00,2021-08-01T14:00:00&sort=date,name,asc&apikey=FCGvVCePHKa7Wz7YvGXHr3IxxVy506VZ';
-	// var apiUrl = 'https://app.ticketmaster.com/discovery/v2/events.json?size=10&classificationName='+ genreSelect +'&latlong=30.2672,-97.7431&radius=5&localStartEndDateTime='+ dateStartSelect +','+ dateEndSelect +'&apikey=FCGvVCePHKa7Wz7YvGXHr3IxxVy506VZ';
+	var apiUrl = `https://app.ticketmaster.com/discovery/v2/events.json?size=10&classificationName=${genreSelect}&latlong=${lat},${lng}&radius=5&localStartEndDateTime=${dateStartSelect},${dateEndSelect}&apikey=FCGvVCePHKa7Wz7YvGXHr3IxxVy506VZ`;
 
 	
     fetch(apiUrl)
