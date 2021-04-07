@@ -2,15 +2,17 @@
 var submitBtn = document.querySelector('#submitBtn');
 var lat;
 var lng;
+var inputCity;
+var inputState;
 //EventListeners
 
 //Functions
 
 
-//Mashvisor API call for short term rentals
-//create function for fetch for on click 
-var inputCity = 'Austin'
-var inputState = 'TX'
+// Mashvisor API call for short term rentals
+// create function for fetch for on click 
+function getRentals(){
+  console.log('click worked');
 fetch("https://mashvisor-api.p.rapidapi.com/airbnb-property/top-reviewed?state="+inputState+"&page=1&city="+inputCity+"&reviews_count=30", {
 	"method": "GET",
 	"headers": {
@@ -29,7 +31,7 @@ fetch("https://mashvisor-api.p.rapidapi.com/airbnb-property/top-reviewed?state="
 .catch(err => {
 	console.error(err);
 
-});
+})};
 
 function renderPropCards (data){
     //loop through top 3 rentals
@@ -105,9 +107,19 @@ ${data.content.list[i].description.substring(0,150)}...
 
   //   template literal for date, move modal above this function
   var getEvents = function () {
-   //   before API, need to get local storage & convert to moment format required for URL parameters.
-    var apiUrl = `https://app.ticketmaster.com/discovery/v2/events.json?size=10&startDateTime=2021-07-20T14:00:00Z&latlong=${lat},${lng}&radius=10&apikey=FCGvVCePHKa7Wz7YvGXHr3IxxVy506VZ`;
-    
+    // var apiUrl = 'https://app.ticketmaster.com/discovery/v2/events.json?size=10&classificationName=rock&latlong=30.2672,-97.7431&radius=100&localStartEndDateTime=2021-04-08T14:00:00,2021-08-01T14:00:00&sort=distance,date,asc&apikey=FCGvVCePHKa7Wz7YvGXHr3IxxVy506VZ';
+	var genreSelect = localStorage.getItem("genre");
+	var dateStartSelect= localStorage.getItem("startDate");
+	var dateEndSelect= localStorage.getItem('endDate')
+	var apiUrl = `https://app.ticketmaster.com/discovery/v2/events.json?size=10&classificationName=${genreSelect}&latlong=${lat},${lng}&radius=5&localStartEndDateTime=${dateStartSelect}T14:00:00,${dateEndSelect}T14:00:00&apikey=FCGvVCePHKa7Wz7YvGXHr3IxxVy506VZ`;
+
+	
+
+ 
+
+
+
+
     fetch(apiUrl)
     .then(function (response) {
         if (response.ok) {
@@ -198,3 +210,9 @@ var dateEndSelect = document.querySelector(".date-end-input").value;
 
 })
 
+submitBtn.addEventListener('click', function(){
+  inputCity = document.querySelector("#inputCity").value;
+  inputState = document.querySelector("#inputState").value;
+  console.log(inputCity);
+  getRentals();
+})
