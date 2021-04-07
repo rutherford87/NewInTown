@@ -2,9 +2,9 @@
 var submitBtn = document.querySelector('#submitBtn');
 var lat;
 var lng;
-//EventListeners
+// EventListeners
 
-//Functions
+// Functions
 
 
 // Mashvisor API call for short term rentals
@@ -89,13 +89,15 @@ ${data.content.list[i].description.substring(0,150)}...
 	}
   }
 
-
 //   template literal for date, move modal above this function
 //  before API, need to get local storage & convert to moment format required for URL parameters.
 //Date must be in YYYY-MM-DD T HH:MM:SS
   var getEvents = function () {
-    var apiUrl = 'https://app.ticketmaster.com/discovery/v2/events.json?size=10&classificationName=rock&latlong=30.2672,-97.7431&radius=100&localStartEndDateTime=2021-04-08T14:00:00,2021-08-01T14:00:00&sort=date,name,asc&apikey=FCGvVCePHKa7Wz7YvGXHr3IxxVy506VZ';
-	var apiUrl = `https://app.ticketmaster.com/discovery/v2/events.json?size=10&classificationName=${genreSelect}&latlong=${lat},${lng}&radius=5&localStartEndDateTime=${dateStartSelect},${dateEndSelect}&apikey=FCGvVCePHKa7Wz7YvGXHr3IxxVy506VZ`;
+    // var apiUrl = 'https://app.ticketmaster.com/discovery/v2/events.json?size=10&classificationName=rock&latlong=30.2672,-97.7431&radius=100&localStartEndDateTime=2021-04-08T14:00:00,2021-08-01T14:00:00&sort=distance,date,asc&apikey=FCGvVCePHKa7Wz7YvGXHr3IxxVy506VZ';
+	var genreSelect = localStorage.getItem("genre");
+	var dateStartSelect= localStorage.getItem("startDate");
+	var dateEndSelect= localStorage.getItem('endDate')
+	var apiUrl = `https://app.ticketmaster.com/discovery/v2/events.json?size=10&classificationName=${genreSelect}&latlong=${lat},${lng}&radius=5&localStartEndDateTime=${dateStartSelect}T14:00:00,${dateEndSelect}T14:00:00&apikey=FCGvVCePHKa7Wz7YvGXHr3IxxVy506VZ`;
 
 	
 
@@ -116,7 +118,7 @@ ${data.content.list[i].description.substring(0,150)}...
     alert('Sorry! we\'r having trouble finding tickets. Try again soon');
     });
 };
-getEvents()
+// getEvents()
 
 
 
@@ -181,5 +183,6 @@ var dateEndSelect = document.querySelector(".date-end-input").value;
    localStorage.setItem("endDate", dateEndSelect);
    localStorage.setItem("genre", genreSelect);
 
+   getEvents()
 })
 
