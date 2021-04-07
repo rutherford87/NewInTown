@@ -2,6 +2,8 @@
 var submitBtn = document.querySelector('#submitBtn');
 var lat;
 var lng;
+var inputCity;
+var inputState;
 //EventListeners
 
 //Functions
@@ -9,8 +11,8 @@ var lng;
 
 // Mashvisor API call for short term rentals
 // create function for fetch for on click 
-var inputCity = 'Austin'
-var inputState = 'TX'
+function getRentals(){
+  console.log('click worked');
 fetch("https://mashvisor-api.p.rapidapi.com/airbnb-property/top-reviewed?state="+inputState+"&page=1&city="+inputCity+"&reviews_count=30", {
 	"method": "GET",
 	"headers": {
@@ -29,7 +31,7 @@ fetch("https://mashvisor-api.p.rapidapi.com/airbnb-property/top-reviewed?state="
 .catch(err => {
 	console.error(err);
 
-});
+})};
 
 function renderPropCards (data){
     //loop through top 3 rentals
@@ -93,32 +95,37 @@ ${data.content.list[i].description.substring(0,150)}...
 //   template literal for date, move modal above this function
 //  before API, need to get local storage & convert to moment format required for URL parameters.
 //Date must be in YYYY-MM-DD T HH:MM:SS
-  var getEvents = function () {
-    var apiUrl = 'https://app.ticketmaster.com/discovery/v2/events.json?size=10&classificationName=rock&latlong=30.2672,-97.7431&radius=100&localStartEndDateTime=2021-04-08T14:00:00,2021-08-01T14:00:00&sort=date,name,asc&apikey=FCGvVCePHKa7Wz7YvGXHr3IxxVy506VZ';
-	var apiUrl = `https://app.ticketmaster.com/discovery/v2/events.json?size=10&classificationName=${genreSelect}&latlong=${lat},${lng}&radius=5&localStartEndDateTime=${dateStartSelect},${dateEndSelect}&apikey=FCGvVCePHKa7Wz7YvGXHr3IxxVy506VZ`;
+//   var getEvents = function () {
+//     var apiUrl = 'https://app.ticketmaster.com/discovery/v2/events.json?size=10&classificationName=rock&latlong=30.2672,-97.7431&radius=100&localStartEndDateTime=2021-04-08T14:00:00,2021-08-01T14:00:00&sort=date,name,asc&apikey=FCGvVCePHKa7Wz7YvGXHr3IxxVy506VZ';
+// 	var apiUrl = `https://app.ticketmaster.com/discovery/v2/events.json?size=10&classificationName=${genreSelect}&latlong=${lat},${lng}&radius=5&localStartEndDateTime=${dateStartSelect},${dateEndSelect}&apikey=FCGvVCePHKa7Wz7YvGXHr3IxxVy506VZ`;
 
 	
 
  
 
-    fetch(apiUrl)
-    .then(function (response) {
-        if (response.ok) {
-            response.json().then(function (data) {
-            console.log(data);
-            displayEvents(data);        
-            });
-        } else {
-            $('#event-container').append(`<div class='weatherbox main-text'>'Error: '${response.statusText}</div>`);
-        };
-    })
-	.catch(function (error) {
-    alert('Sorry! we\'r having trouble finding tickets. Try again soon');
-    });
-};
-getEvents()
+//     fetch(apiUrl)
+//     .then(function (response) {
+//         if (response.ok) {
+//             response.json().then(function (data) {
+//             console.log(data);
+//             displayEvents(data);        
+//             });
+//         } else {
+//             $('#event-container').append(`<div class='weatherbox main-text'>'Error: '${response.statusText}</div>`);
+//         };
+//     })
+// 	.catch(function (error) {
+//     alert('Sorry! we\'r having trouble finding tickets. Try again soon');
+//     });
+// };
+// getEvents()
 
-
+submitBtn.addEventListener('click', function(){
+  inputCity = document.querySelector("#inputCity").value;
+  inputState = document.querySelector("#inputState").value;
+  console.log(inputCity);
+  getRentals();
+})
 
 
 
