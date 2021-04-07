@@ -37,7 +37,7 @@ function renderPropCards (data){
 
     for(i=0; i<3; i++){
 $('#propCardCont').append(`
-<div class="card-content" id='propCard1'>
+<div class="card-content delete-card" id='propCard1'>
                   <div class="media">
                     <div class="media-left">
                       <figure class="image is-48x48">
@@ -161,11 +161,19 @@ const modal = document.querySelector('.modal');
 var eventSearch = document.querySelector('#searchEvent');
 
 $(document).on('click','#searchEventNear',function(){
+  
+  
+  //  $(this).nextSibling('.delete-card').remove();
    modal.classList.add('is-active');
    lat = $(this).attr("data-lat");
    lng = $(this).attr("data-lng");
    console.log(lat);
    console.log(lng);
+  //  Remove sibling cards not clicked on
+  $(this).parent().siblings('.delete-card').remove();
+  var titleChange = document.querySelector(".changeTitle");
+  titleChange.textContent("Your Chosen Property");
+
 });
 
 
