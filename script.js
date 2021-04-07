@@ -1,6 +1,7 @@
 //Selectors
 var submitBtn = document.querySelector('#submitBtn');
-
+var lat;
+var lng;
 //EventListeners
 
 //Functions
@@ -36,7 +37,7 @@ function renderPropCards (data){
 
     for(i=0; i<3; i++){
 $('#propCardCont').append(`
-<div class="card-content"id='propCard1'>
+<div class="card-content" id='propCard1'>
                   <div class="media">
                     <div class="media-left">
                       <figure class="image is-48x48">
@@ -52,7 +53,7 @@ $('#propCardCont').append(`
 ${data.content.list[i].description.substring(0,150)}...
 </div>  
 <a href=${data.content.list[i].map_image_url}>See Map</a> 
-
+<input class="button" id="searchEventNear" type="submit" value="Search Events Nearby!" data-lat=${data.content.list[i].lat} data-lng=${data.content.list[i].lng}>
                   
                 </div>
 `)
@@ -88,6 +89,7 @@ ${data.content.list[i].description.substring(0,150)}...
 	}
   }
 
+
 //   template literal for date, move modal above this function
 //  before API, need to get local storage & convert to moment format required for URL parameters.
 //Date must be in YYYY-MM-DD T HH:MM:SS
@@ -96,6 +98,9 @@ ${data.content.list[i].description.substring(0,150)}...
 	var apiUrl = `https://app.ticketmaster.com/discovery/v2/events.json?size=10&classificationName=${genreSelect}&latlong=${lat},${lng}&radius=5&localStartEndDateTime=${dateStartSelect},${dateEndSelect}&apikey=FCGvVCePHKa7Wz7YvGXHr3IxxVy506VZ`;
 
 	
+
+ 
+
     fetch(apiUrl)
     .then(function (response) {
         if (response.ok) {
@@ -148,15 +153,19 @@ getEvents()
 
 // Modal
 
-var selectProperty = document.querySelector(".card-content");
+// var selectProperty = document.querySelector("#searchEventNear");
 const modalBg = document.querySelector('.modal-background');
 const modal = document.querySelector('.modal');
 var eventSearch = document.querySelector('#searchEvent');
 
+$(document).on('click','#searchEventNear',function(){
+   modal.classList.add('is-active');
+   lat = $(this).attr("data-lat");
+   lng = $(this).attr("data-lng");
+   console.log(lat);
+   console.log(lng);
+});
 
-selectProperty.addEventListener('click', () => {
-   modal.classList.add('is-active')
-})
 
 modalBg.addEventListener('click', () => {
    modal.classList.remove('is-active')
@@ -168,9 +177,9 @@ var dateStartSelect = document.querySelector(".date-start-input").value;
 var dateEndSelect = document.querySelector(".date-end-input").value;
 
    modal.classList.remove('is-active');
-   localStorage.setItem("startDate", JSON.stringify(dateStartSelect));
-   localStorage.setItem("endDate", JSON.stringify(dateEndSelect));
-   localStorage.setItem("genre", JSON.stringify(genreSelect));
+   localStorage.setItem("startDate", dateStartSelect);
+   localStorage.setItem("endDate", dateEndSelect);
+   localStorage.setItem("genre", genreSelect);
 
 })
 
