@@ -1,0 +1,18 @@
+.is-equal-height {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  .is-equal-height .card-footer {
+    margin-top: auto;
+  }
+
+  .item{
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between
+  }
+
+.columns button{
+    margin-top: auto;
+  }
