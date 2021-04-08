@@ -1,18 +1,20 @@
 .is-equal-height {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-  }
-  .is-equal-height .card-footer {
-    margin-top: auto;
-  }
-
-  .item{
-    display:flex;
-    flex-direction:column;
-    justify-content:space-between
-  }
-
-.columns button{
-    margin-top: auto;
-  }
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.ourFooter {
+  /* position: absolute; */
+  margin-top: 20px;
+}
+.item{
+  display:flex;
+  flex-direction:column;
+  margin-top: auto;
+}
+.is-fixed {
+  display: flex;
+  width: 200px!important;
+  height: auto;
+  justify-self: center;
+}
