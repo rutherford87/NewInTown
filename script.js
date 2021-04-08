@@ -35,6 +35,7 @@ fetch("https://mashvisor-api.p.rapidapi.com/airbnb-property/top-reviewed?state="
 
 })};
 
+
 function renderPropCards (data){
     //loop through top 3 rentals
 
@@ -85,26 +86,27 @@ $('#propCardCont').append(`
   }else{
   for (var i = 0; i < 3; i++){
 		$('#event-container').append(`
-		<div class="card-content">
-		<div class="media">
-		  <div class="media-left">
-			<figure class="image is-48x48">
-			  <img src="${eventSearch._embedded.events[i].images[1].url}" alt="Placeholder image">
-			</figure>
-		  </div>
-		  <div class="media-content">
-			<p class="title is-4">${eventSearch._embedded.events[i].name}</p>
-			<p class="subtitle is-6"><a href="${eventSearch._embedded.events[i].url}">Get Tickets</a></p>
-		  </div>
-		</div>
-		<div class="content">
-		  Venue: ${eventSearch._embedded.events[i]._embedded.venues[0].name}.
-		  <p><a href='${eventSearch._embedded.events[i]._embedded.venues[0].url}'>more info</a></p>
-		  <p><a href="#">#css</a> <a href="#">#responsive</a></p>
-		  <br>
-		  <time datetime="2016-1-1">${moment(eventSearch._embedded.events[i].dates.start.localDate,'YYYY-MM-DD').format('MM-DD-YYYY')}</time>
-		</div>
-	  </div>
+    <div class="card-content is-equal-height">
+    <div class="card column">
+      <div class="card-image">
+          <figure class="image is-200x200">
+            <img class="is-fixed" src="${eventSearch._embedded.events[i].images[2].url}" alt="Placeholder image">
+          </figure>
+          </div>
+          <div class="media-content">
+          <p class="title is-4">${eventSearch._embedded.events[i].name}</p>
+          <p class="subtitle is-6"><a href="${eventSearch._embedded.events[i].url}">Get Tickets</a></p>
+          </div>
+        
+          <div class="content">
+          <p>Ticket Price :$${eventSearch._embedded.events[i].priceRanges[0].min} - $${eventSearch._embedded.events[i].priceRanges[0].max} (USD)</p>
+          <p>Venue: ${eventSearch._embedded.events[i]._embedded.venues[0].name}.</p>
+          <p><a href='${eventSearch._embedded.events[i]._embedded.venues[0].url}'>more info</a></p>
+          <br>
+          <time datetime="2016-1-1">${moment(eventSearch._embedded.events[i].dates.start.localDate,'YYYY-MM-DD').format('MM-DD-YYYY')}</time>
+        </div>
+      </div>
+    </div>
 		`)
 	}
   }}
@@ -196,6 +198,10 @@ $(document).on('click','#searchEventNear',function(){
    lng = $(this).attr("data-lng");
    console.log(lat);
    console.log(lng);
+   var startDate = localStorage.getItem("startDate")|| ""
+   var endDate = localStorage.getItem("endDate")|| ""
+   $('.date-start-input').val(startDate)
+   $('.date-end-input').val(endDate)
   //  Remove sibling cards not clicked on
   $(this).parent().siblings('.delete-card').remove();
   // var titleChange = document.querySelector(".changeTitle");
@@ -237,6 +243,7 @@ submitBtn.addEventListener('click', function(){
   }
   console.log(inputState);
   console.log(inputCity);
+  // renderPropCards ()
   getRentals();
   //renderPropCards();
 });
