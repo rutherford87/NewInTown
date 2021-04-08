@@ -4,6 +4,8 @@ var lat;
 var lng;
 var inputCity;
 var inputState;
+
+
 //EventListeners
 
 //Functions
@@ -36,7 +38,15 @@ fetch("https://mashvisor-api.p.rapidapi.com/airbnb-property/top-reviewed?state="
 function renderPropCards (data){
     //loop through top 3 rentals
 
-
+// Error box to show if rentals did not populate
+if (data.content.list == 0){
+  $('#propCont').append(`
+  <div class="card-content">
+    <div>There are no rentals in your selected city and state. Try searching a new area!</div>
+  </div>
+    `)
+}else{
+for (var i = 0; i < 3; i++){
     for(i=0; i<3; i++){
 $('#propCardCont').append(`
 <div class="card-content delete-card" id='propCard1'>
@@ -62,7 +72,7 @@ $('#propCardCont').append(`
                   
 `)
     }
-}
+}};}
 
   var displayEvents = function(eventSearch) {
 	$('#event-container').children().remove()
@@ -131,10 +141,14 @@ $('#propCardCont').append(`
     alert('Sorry! we\'r having trouble connecting to our servers. Try again soon');
     });
 };
-// getEvents()
+//getEvents()
 
-
-
+//function to correct two word city names to capital case
+function toTitleCase(str) {
+  return str.replace(/\w\S*/g, function(txt){
+      return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+  });
+}
 
 
 
@@ -208,13 +222,13 @@ var dateEndSelect = document.querySelector(".date-end-input").value;
 
 })
 
-submitBtn.addEventListener('click', function(){
+submitBtn.addEventListener('click', function(){ 
   $('#event-container').children().remove();
   $('#propCardCont').children().remove();
   $('#title1').css("display", "none");
   $('#title2').css("display", "block");
-  inputCityIni = document.querySelector("#inputCity").value.toLowerCase();
-  inputCity =inputCityIni.charAt(0).toUpperCase()+inputCityIni.slice(1);
+  inputCityIni = document.querySelector("#inputCity").value;
+  inputCity =toTitleCase(inputCityIni);
   inputState = document.querySelector("#inputState").value.toUpperCase();
   if (inputState.length!==2){
   alert("Please input state as two-letter state code")
@@ -224,4 +238,5 @@ submitBtn.addEventListener('click', function(){
   console.log(inputState);
   console.log(inputCity);
   getRentals();
-})
+  //renderPropCards();
+});
