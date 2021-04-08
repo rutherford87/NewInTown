@@ -12,7 +12,7 @@ var inputState;
 // Mashvisor API call for short term rentals
 // create function for fetch for on click 
 function getRentals(){
-  console.log('click worked');
+
 fetch("https://mashvisor-api.p.rapidapi.com/airbnb-property/top-reviewed?state="+inputState+"&page=1&city="+inputCity+"&reviews_count=30", {
 	"method": "GET",
 	"headers": {
@@ -101,6 +101,7 @@ $('#propCardCont').append(`
 
   //   template literal for date, move modal above this function
   var getEvents = function () {
+    $('#title3').css("display", "block");
     // var apiUrl = 'https://app.ticketmaster.com/discovery/v2/events.json?size=10&classificationName=rock&latlong=30.2672,-97.7431&radius=100&localStartEndDateTime=2021-04-08T14:00:00,2021-08-01T14:00:00&sort=distance,date,asc&apikey=FCGvVCePHKa7Wz7YvGXHr3IxxVy506VZ';
 	var genreSelect = localStorage.getItem("genre");
 	var dateStartSelect= localStorage.getItem("startDate");
@@ -208,8 +209,19 @@ var dateEndSelect = document.querySelector(".date-end-input").value;
 })
 
 submitBtn.addEventListener('click', function(){
-  inputCity = document.querySelector("#inputCity").value;
-  inputState = document.querySelector("#inputState").value;
+  $('#event-container').children().remove();
+  $('#propCardCont').children().remove();
+  $('#title1').css("display", "none");
+  $('#title2').css("display", "block");
+  inputCityIni = document.querySelector("#inputCity").value.toLowerCase();
+  inputCity =inputCityIni.charAt(0).toUpperCase()+inputCityIni.slice(1);
+  inputState = document.querySelector("#inputState").value.toUpperCase();
+  if (inputState.length!==2){
+  alert("Please input state as two-letter state code")
+  inputState.reset();
+  return;
+  }
+  console.log(inputState);
   console.log(inputCity);
   getRentals();
 })
