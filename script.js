@@ -16,7 +16,7 @@ function getRentals(){
 fetch("https://mashvisor-api.p.rapidapi.com/airbnb-property/top-reviewed?state="+inputState+"&page=1&city="+inputCity+"&reviews_count=30", {
 	"method": "GET",
 	"headers": {
-		"x-rapidapi-key": "1cb58a581amsh305daaa9cdf8116p1a0875jsn351d7f82b4e7",
+		"x-rapidapi-key": "dd0a6684a9msh406090745954020p1106b2jsne1e13cc9f5a3",
 		"x-rapidapi-host": "mashvisor-api.p.rapidapi.com"
 	}
 })
@@ -65,7 +65,12 @@ ${data.content.list[i].description.substring(0,150)}...
 
   var displayEvents = function(eventSearch) {
 	$('#event-container').children().remove()
-	for (var i = 0; i < 3; i++){
+	if (eventSearch.page.totalElements == 0){
+    $('#event-container').append(`
+    <div>There are no events in your selected dates</div>
+    `)
+  }else{
+  for (var i = 0; i < 3; i++){
 		$('#event-container').append(`
 		<div class="card-content">
 		<div class="media">
@@ -84,12 +89,12 @@ ${data.content.list[i].description.substring(0,150)}...
 		  <p><a href='${eventSearch._embedded.events[i]._embedded.venues[0].url}'>more info</a></p>
 		  <p><a href="#">#css</a> <a href="#">#responsive</a></p>
 		  <br>
-		  <time datetime="2016-1-1">${eventSearch._embedded.events[i].dates.start.localDate}</time>
+		  <time datetime="2016-1-1">${moment(eventSearch._embedded.events[i].dates.start.localDate,'YYYY-MM-DD').format('MM-DD-YYYY')}</time>
 		</div>
 	  </div>
 		`)
 	}
-  }
+  }}
 
 //   template literal for date, move modal above this function
 //  before API, need to get local storage & convert to moment format required for URL parameters.
@@ -100,7 +105,8 @@ ${data.content.list[i].description.substring(0,150)}...
 	var dateStartSelect= localStorage.getItem("startDate");
 	var dateEndSelect= localStorage.getItem('endDate')
 	var apiUrl = `https://app.ticketmaster.com/discovery/v2/events.json?size=10&classificationName=${genreSelect}&latlong=${lat},${lng}&radius=5&localStartEndDateTime=${dateStartSelect}T14:00:00,${dateEndSelect}T14:00:00&apikey=FCGvVCePHKa7Wz7YvGXHr3IxxVy506VZ`;
-
+	console.log(lat)
+	console.log(lng)
 	
 
  
@@ -116,7 +122,7 @@ ${data.content.list[i].description.substring(0,150)}...
             displayEvents(data);        
             });
         } else {
-            $('#event-container').append(`<div class='weatherbox main-text'>'Error: '${response.statusText}</div>`);
+            $('#event-container').append(`<div>Error: ${response.statusText}</div>`);
         };
     })
 	.catch(function (error) {
