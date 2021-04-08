@@ -6,7 +6,7 @@ var inputCity;
 var inputState;
 //EventListeners
 
-// Functions
+//Functions
 
 
 // Mashvisor API call for short term rentals
@@ -40,60 +40,72 @@ function renderPropCards (data){
     for(i=0; i<3; i++){
 $('#propCardCont').append(`
 <div class="card-content delete-card" id='propCard1'>
-                  <div class="media">
-                    <div class="media-left">
-                      <figure class="image is-48x48">
-                        <img src=${data.content.list[i].thumbnail_url} alt="Placeholder image">
+                  <div class="card is-equal-height">
+                    <div class="card-image">
+                      <figure class="image is-200x200">
+                       <img src=${data.content.list[i].thumbnail_url} alt="Placeholder image">
                       </figure>
-                    </div>
-                    <div class="media-content">
-                      <p class="title is-4">${data.content.list[i].name}</p>
-                    <p class="subtitle is-6">Rate per Night (USD) ${data.content.list[i].price}</p>
+                      </div>
+                      <div class="media-content mx-2 my-2">
+                      <p class="title is-4 px-2 py-2">${data.content.list[i].name}</p>
+                      <p class="subtitle is-6 px-1">Rate per Night (USD) ${data.content.list[i].price}</p>
+                      <div class="content px-1 py-1">
+                      ${data.content.list[i].description.substring(0,150)}...
+                      </div> 
+                      <footer class="card-footer">   
+                          <a class="card-footer-item" href=${data.content.list[i].map_image_url}>See Map</a> 
+                          <input class="button item card-footer-item" id="searchEventNear" type="submit" value="Search Events Nearby!" data-lat=${data.content.list[i].lat} data-lng=${data.content.list[i].lng}>              
+                          </div>
+                      </footer>
                     </div>
                   </div>
-                  <div class="content">
-${data.content.list[i].description.substring(0,150)}...
-</div>  
-<a href=${data.content.list[i].map_image_url}>See Map</a> 
-<input class="button" id="searchEventNear" type="submit" value="Search Events Nearby!" data-lat=${data.content.list[i].lat} data-lng=${data.content.list[i].lng}>
                   
-                </div>              
 `)
     }
 }
 
+// $.ajax({
+//     type:"GET",
+//     url:"https://app.ticketmaster.com/discovery/v2/events.json?size=10&city=Austin&apikey=FCGvVCePHKa7Wz7YvGXHr3IxxVy506VZ",
+//     async:true,
+//     dataType: "json",
+//     success: function(json) {
+//                 console.log(json);
+//                 // Parse the response.
+//                 // Do other things.
+//              },
+//     error: function(xhr, status, err) {
+//                 // This time, we do not end up here!
+//              }
+//   });
 
   var displayEvents = function(eventSearch) {
 	$('#event-container').children().remove()
 	for (var i = 0; i < 3; i++){
 		$('#event-container').append(`
-		<div class="card-content">
-		<div class="media">
-		  <div class="media-left">
-			<figure class="image is-48x48">
-			  <img src="${eventSearch._embedded.events[i].images[1].url}" alt="Placeholder image">
-			</figure>
-		  </div>
-		  <div class="media-content">
-			<p class="title is-4">${eventSearch._embedded.events[i].name}</p>
-			<p class="subtitle is-6"><a href="${eventSearch._embedded.events[i].url}">Get Tickets</a></p>
-		  </div>
-		</div>
-		<div class="content">
-		  Venue: ${eventSearch._embedded.events[i]._embedded.venues[0].name}.
-		  <p><a href='${eventSearch._embedded.events[i]._embedded.venues[0].url}'>more info</a></p>
-		  <p><a href="#">#css</a> <a href="#">#responsive</a></p>
-		  <br>
-		  <time datetime="2016-1-1">${eventSearch._embedded.events[i].dates.start.localDate}</time>
-		</div>
-	  </div>
+    <div class="card-content">
+                  <div class="card is-equal-height">
+                    <div class="card-image">
+                      <figure class="image is-200x200">
+                       <img src=${eventSearch._embedded.events[i].images[1].url} alt="Event image">
+                      </figure>
+                      </div>
+                      <div class="media-content mx-2 my-2">
+                      <p class="title is-4 px-2 py-2">${eventSearch._embedded.events[i].name}</p>
+                      <p class="subtitle is-6 px-1">Are we Using?(USD)</p>
+                      <div class="content px-1 py-1">
+                      
+                      </div> 
+                      <footer class="card-footer">   
+                      <time datetime="2016-1-1">11:09 PM - ${eventSearch._embedded.events[i].dates.start.localDate}</time>
+                      </footer>
+                    </div>
+                  </div>
 		`)
 	}
   }
 
-//   template literal for date, move modal above this function
-//  before API, need to get local storage & convert to moment format required for URL parameters.
-//Date must be in YYYY-MM-DD T HH:MM:SS
+  //   template literal for date, move modal above this function
   var getEvents = function () {
     $('#title3').css("display", "block");
     // var apiUrl = 'https://app.ticketmaster.com/discovery/v2/events.json?size=10&classificationName=rock&latlong=30.2672,-97.7431&radius=100&localStartEndDateTime=2021-04-08T14:00:00,2021-08-01T14:00:00&sort=distance,date,asc&apikey=FCGvVCePHKa7Wz7YvGXHr3IxxVy506VZ';
@@ -121,7 +133,7 @@ ${data.content.list[i].description.substring(0,150)}...
         };
     })
 	.catch(function (error) {
-    alert('Sorry! we\'r having trouble finding tickets. Try again soon');
+    alert('Sorry! we\'r having trouble connecting to our servers. Try again soon');
     });
 };
 // getEvents()
@@ -177,8 +189,8 @@ $(document).on('click','#searchEventNear',function(){
    console.log(lng);
   //  Remove sibling cards not clicked on
   $(this).parent().siblings('.delete-card').remove();
-  var titleChange = document.querySelector(".changeTitle");
-  titleChange.textContent("Your Chosen Property");
+  // var titleChange = document.querySelector(".changeTitle");
+  // titleChange.textContent("Your Chosen Property");
 
 });
 
@@ -197,7 +209,8 @@ var dateEndSelect = document.querySelector(".date-end-input").value;
    localStorage.setItem("endDate", dateEndSelect);
    localStorage.setItem("genre", genreSelect);
 
-   getEvents()
+  getEvents();
+
 })
 
 submitBtn.addEventListener('click', function(){
