@@ -5,16 +5,10 @@ var lng;
 var inputCity;
 var inputState;
 
-
-//EventListeners
-
 //Functions
 
-
 // Mashvisor API call for short term rentals
-// create function for fetch for on click 
 function getRentals(){
-
 fetch("https://mashvisor-api.p.rapidapi.com/airbnb-property/top-reviewed?state="+inputState+"&page=1&city="+inputCity+"&reviews_count=30", {
 	"method": "GET",
 	"headers": {
@@ -24,21 +18,17 @@ fetch("https://mashvisor-api.p.rapidapi.com/airbnb-property/top-reviewed?state="
 })
 .then(response => {
     return response.json();
-	console.log(response);
 })
 .then(function (data){
-    console.log(data)
     renderPropCards(data)
     })
 .catch(err => {
-	console.error(err);
-
+  alert('Sorry! we\'r having trouble connecting to our servers. Try again soon');
 })};
 
 
 function renderPropCards (data){
-    //loop through top 3 rentals
-
+//loop through top 3 rentals
 // Error box to show if rentals did not populate
 if (data.content.list == 0){
   $('#propCont').append(`
@@ -69,13 +59,14 @@ $('#propCardCont').append(`
                           </div>
                       </footer>
                     </div>
-                  </div>
-                  
+                  </div>                 
 `)
     }
 }};}
 
   var displayEvents = function(eventSearch) {
+//loop through top 3 Events
+// Error box to show if Events did not populate
 	$('#event-container').children().remove()
 	if (eventSearch.page.totalElements == 0){
     $('#event-container').append(`
@@ -111,23 +102,13 @@ $('#propCardCont').append(`
 	}
   }}
 
-  //   template literal for date, move modal above this function
+//   template literal for date
   var getEvents = function () {
     $('#title3').css("display", "block");
-    // var apiUrl = 'https://app.ticketmaster.com/discovery/v2/events.json?size=10&classificationName=rock&latlong=30.2672,-97.7431&radius=100&localStartEndDateTime=2021-04-08T14:00:00,2021-08-01T14:00:00&sort=distance,date,asc&apikey=FCGvVCePHKa7Wz7YvGXHr3IxxVy506VZ';
 	var genreSelect = localStorage.getItem("genre");
 	var dateStartSelect= localStorage.getItem("startDate");
 	var dateEndSelect= localStorage.getItem('endDate')
 	var apiUrl = `https://app.ticketmaster.com/discovery/v2/events.json?size=10&classificationName=${genreSelect}&latlong=${lat},${lng}&radius=5&localStartEndDateTime=${dateStartSelect}T14:00:00,${dateEndSelect}T14:00:00&apikey=FCGvVCePHKa7Wz7YvGXHr3IxxVy506VZ`;
-	console.log(lat)
-	console.log(lng)
-	
-
- 
-
-
-
-
     fetch(apiUrl)
     .then(function (response) {
         if (response.ok) {
@@ -143,7 +124,6 @@ $('#propCardCont').append(`
     alert('Sorry! we\'r having trouble connecting to our servers. Try again soon');
     });
 };
-//getEvents()
 
 //function to correct two word city names to capital case
 function toTitleCase(str) {
@@ -152,63 +132,26 @@ function toTitleCase(str) {
   });
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // Modal
 
-// var selectProperty = document.querySelector("#searchEventNear");
 const modalBg = document.querySelector('.modal-background');
 const modal = document.querySelector('.modal');
 var eventSearch = document.querySelector('#searchEvent');
 
+//Event listeners
+
 $(document).on('click','#searchEventNear',function(){
   
-  
-  //  $(this).nextSibling('.delete-card').remove();
    modal.classList.add('is-active');
    lat = $(this).attr("data-lat");
    lng = $(this).attr("data-lng");
-   console.log(lat);
-   console.log(lng);
    var startDate = localStorage.getItem("startDate")|| ""
    var endDate = localStorage.getItem("endDate")|| ""
    $('.date-start-input').val(startDate)
    $('.date-end-input').val(endDate)
   //  Remove sibling cards not clicked on
   $(this).parent().siblings('.delete-card').remove();
-  // var titleChange = document.querySelector(".changeTitle");
-  // titleChange.textContent("Your Chosen Property");
-
 });
-
 
 modalBg.addEventListener('click', () => {
    modal.classList.remove('is-active')
@@ -223,9 +166,8 @@ var dateEndSelect = document.querySelector(".date-end-input").value;
    localStorage.setItem("startDate", dateStartSelect);
    localStorage.setItem("endDate", dateEndSelect);
    localStorage.setItem("genre", genreSelect);
-
+   //call funtion getEvents with above values
   getEvents();
-
 })
 
 submitBtn.addEventListener('click', function(){ 
@@ -241,9 +183,6 @@ submitBtn.addEventListener('click', function(){
   inputState.reset();
   return;
   }
-  console.log(inputState);
-  console.log(inputCity);
-  // renderPropCards ()
+  //call function to get retals with the values above
   getRentals();
-  //renderPropCards();
 });
