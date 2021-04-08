@@ -66,29 +66,38 @@ $('#propCardCont').append(`
 
   var displayEvents = function(eventSearch) {
 	$('#event-container').children().remove()
-	for (var i = 0; i < 3; i++){
-		$('#event-container').append(`
+	if (eventSearch.page.totalElements == 0){
+    $('#event-container').append(`
     <div class="card-content">
-                  <div class="card is-equal-height">
-                    <div class="card-image">
-                      <figure class="image is-200x200">
-                       <img src=${eventSearch._embedded.events[i].images[1].url} alt="Event image">
-                      </figure>
-                      </div>
-                      <div class="media-content mx-2 my-2">
-                      <p class="title is-4 px-2 py-2">${eventSearch._embedded.events[i].name}</p>
-                      <p class="subtitle is-6 px-1">Are we Using?(USD)</p>
-                      <div class="content px-1 py-1">
-                      
-                      </div> 
-                      <footer class="card-footer">   
-                      <time datetime="2016-1-1">11:09 PM - ${eventSearch._embedded.events[i].dates.start.localDate}</time>
-                      </footer>
-                    </div>
-                  </div>
+      <div>There are no events in your selected dates</div>
+    </div>
+      `)
+  }else{
+  for (var i = 0; i < 3; i++){
+		$('#event-container').append(`
+		<div class="card-content">
+		<div class="media">
+		  <div class="media-left">
+			<figure class="image is-48x48">
+			  <img src="${eventSearch._embedded.events[i].images[1].url}" alt="Placeholder image">
+			</figure>
+		  </div>
+		  <div class="media-content">
+			<p class="title is-4">${eventSearch._embedded.events[i].name}</p>
+			<p class="subtitle is-6"><a href="${eventSearch._embedded.events[i].url}">Get Tickets</a></p>
+		  </div>
+		</div>
+		<div class="content">
+		  Venue: ${eventSearch._embedded.events[i]._embedded.venues[0].name}.
+		  <p><a href='${eventSearch._embedded.events[i]._embedded.venues[0].url}'>more info</a></p>
+		  <p><a href="#">#css</a> <a href="#">#responsive</a></p>
+		  <br>
+		  <time datetime="2016-1-1">${moment(eventSearch._embedded.events[i].dates.start.localDate,'YYYY-MM-DD').format('MM-DD-YYYY')}</time>
+		</div>
+	  </div>
 		`)
 	}
-  }
+  }}
 
   //   template literal for date, move modal above this function
   var getEvents = function () {
@@ -98,7 +107,8 @@ $('#propCardCont').append(`
 	var dateStartSelect= localStorage.getItem("startDate");
 	var dateEndSelect= localStorage.getItem('endDate')
 	var apiUrl = `https://app.ticketmaster.com/discovery/v2/events.json?size=10&classificationName=${genreSelect}&latlong=${lat},${lng}&radius=5&localStartEndDateTime=${dateStartSelect}T14:00:00,${dateEndSelect}T14:00:00&apikey=FCGvVCePHKa7Wz7YvGXHr3IxxVy506VZ`;
-
+	console.log(lat)
+	console.log(lng)
 	
 
  
@@ -114,7 +124,7 @@ $('#propCardCont').append(`
             displayEvents(data);        
             });
         } else {
-            $('#event-container').append(`<div class='weatherbox main-text'>'Error: '${response.statusText}</div>`);
+            $('#event-container').append(`<div>Error: ${response.statusText}</div>`);
         };
     })
 	.catch(function (error) {
