@@ -175,6 +175,7 @@ submitBtn.addEventListener('click', function(){
   $('#propCardCont').children().remove();
   $('#title1').css("display", "none");
   $('#title2').css("display", "block");
+  $('#title3').css("display",'none');
   inputCityIni = document.querySelector("#inputCity").value;
   inputCity =toTitleCase(inputCityIni);
   inputState = document.querySelector("#inputState").value.toUpperCase();
